@@ -6,7 +6,7 @@ String.prototype.linkReplace = function() {
 
 var ICF = {}
 
-ICF.searchType = 'Flicker';
+ICF.searchType = 'Flickr';
 
 ICF.Interactions = {
     
