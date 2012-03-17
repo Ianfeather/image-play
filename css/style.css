@@ -1,0 +1,161 @@
+img {
+	max-width: 100%;
+}
+body {
+	margin: 0;
+	background-color: hsl(200, 55%, 87%);
+}
+h2 {margin: 0;}
+
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+.cf:after {
+    clear:both;
+}
+
+
+/*********** Layout ****************/
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+.gallery {
+  margin-left: -1%;
+}
+.gallery div {
+  width: 24%;
+  padding-left: 1%;
+  float: left;
+}
+.gallery a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/*********** Control Panel ****************/
+
+.control-panel {
+	position: relative;
+	z-index: 1;
+    width: 100%;
+    padding: 30px 0;
+	background-color: hsla(7, 100%, 66%, 1);
+	background-color: #666;
+	background-image: -webkit-linear-gradient(top, #666, #555);
+   	   background-image: -moz-linear-gradient(top, #666, #555);
+   	    background-image: -ms-linear-gradient(top, #666, #555);
+		 background-image: -o-linear-gradient(top, #666, #555);
+			background-image: linear-gradient(top, #666, #555);
+	box-shadow: inset 0px 1px 1px rgba(255,255,255,0.8), 0 2px 2px rgba(0,0,0,0.8);
+}
+
+.control-panel h2 {
+	color: #d5d5d5;
+	font-size: 4em;
+	text-align: center;
+	text-shadow: 0px 1px 1px rgba(0,0,0,0.8), 0 -1px 0 rgba(255,255,255,0.8);
+}
+
+.control-panel > div {
+	margin: 30px auto 0;
+	width: 500px;
+	padding: 20px 40px;
+	border-radius: 30px;
+	background-color: rgba(255,255,255,0.2);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.6);
+}
+
+.radio-buttons {
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.radio-buttons label {
+ color: #F0F0EF;
+}	
+.search {
+	float: right;
+	margin-left: 40px;
+}
+.search input, .search .btn {
+	float: left;
+}
+
+
+/*********** Gallery ****************/
+
+.gallery-container {
+	background-color: rgba(255,255,255,0.8);
+	min-height: 100%;
+}
+.gallery {
+	padding: 0 20px;
+}
+.gallery > div {
+	margin-top: 20px;
+}
+
+/************* Error ***************/
+
+h3 {
+	font-size: 3em;
+	text-align: center;
+	padding: 40px 0;
+	color: #5D5D5D;
+}
+
+
+/************* Forms ***************/
+input[type="text"] {
+  border: 1px solid #CFCFCF;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 5px;
+  border-radius: 4px;
+  width: 250px;
+  margin-right: 5px;
+  font-size: 22px;
+  color: #57A3E1;
+}
+/*********** Buttons ***************/
+.btn {
+  position: relative;
+  display: inline-block;
+  padding: 11px 50px 9px 10px;
+  color: white;
+  background-color: #57a3e1;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Arial, 'Helvetica Neue', sans-serif;
+  letter-spacing: 0.07em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), inset 1px 1px 1px rgba(255, 255, 255, 0.7);
+}
+.btn::after {
+  content: '';
+  display: none;
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  right: 10px;
+  top: 3px;
+}
+.btn:active {
+  top: 1px;
+}
+.btn:hover::after {
+  display: block;
+  background-image: url('http://ianfeather.co.uk/resources/arrow_alt_right.png');
+}
+.btn.active::after {
+  display: block;
+  background-image: url('http://ianfeather.co.uk/resources/ajax-loader-3.gif');
+}
