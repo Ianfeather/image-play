@@ -112,8 +112,7 @@ ICF.ImageRequest = (function(){
 											'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_b.jpg" class="i' + i + '" />' +
 										'</a>' + 
 									'</div>' + 
-									'<div class="col">' + 
-										'<h2>Edit</h2>' +
+									'<div class="col edit-panel">' + 
 										'<p>This is only going to work in Chrome Canary for the moment.</p>' +
 										'<h4>Blur</h4>' + 
 										'<input type="range" value="0" max="10" name="blur" />' + 
@@ -128,7 +127,7 @@ ICF.ImageRequest = (function(){
 										'<input type="range" min="0" name="brightness" max="1" step="0.1" value="0" />' + 
 										'<label>0</label>' + 
 										'<h4>Contrast</h4>' + 
-										'<input type="range" min="1" name="contrast" max="10" step="1" value="0" />' + 
+										'<input type="range" min="1" name="contrast" max="5" step="0.1" value="0" />' + 
 										'<label>0</label>' + 
 										'<h4>Hue Rotate</h4>' + 
 										'<input type="range" min="0" name="hue-rotate" max="360" step="30" value="0" />' + 
