@@ -225,7 +225,7 @@ ICF.ImageEdit = (function(){
 				filter.blur = type + '(' + val +'px)';
 				break;
 			case 'hue-rotate' :
-				filter.blur = type + '(' + val +'deg)';
+				filter['hue-rotate'] = type + '(' + val +'deg)';
 				break;
 			default :
 				filter[type] = type + '(' + val + ')';
@@ -244,8 +244,11 @@ ICF.ImageEdit = (function(){
 			$('.js-gal-container').on('change', 'input[type="range"]', function(e){
 				var val = $(this).val(),
 					type = $(this).attr('name');
-				$(this).next().text(val.substr(0,3));
 				update(type, val);
+				if (type == 'blur') {val = val.substr(0,3) + "px";} 
+				else {val = val.substr(0,3);}
+				$(this).next().text(val);
+				
 			});
 
 			

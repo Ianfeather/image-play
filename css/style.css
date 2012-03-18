@@ -144,13 +144,15 @@ h3 {
 
 .edit-panel label {
 	float: right;
+	color: #57A3E1;
 }
 .edit-panel input {
-	width: 90%;
+	width: 80%;
 }
 
 .edit-panel h4 {
 	margin-top: .75em;
+	color: #57A3E1;
 }
 
 
