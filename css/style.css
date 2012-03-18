@@ -25,10 +25,13 @@ h1 {margin: 0;}
 .gallery {
   margin-left: -1%;
 }
-.gallery div {
+.gallery .col {
   width: 24%;
   padding-left: 1%;
   float: left;
+}
+.gallery .colx3 {
+	width: 72%
 }
 .gallery a {
   display: block;
@@ -39,6 +42,7 @@ h1 {margin: 0;}
 
 .control-panel {
 	position: relative;
+	text-align: center;
 	z-index: 1;
     width: 100%;
     padding: 30px 0;
@@ -60,12 +64,17 @@ h1 {margin: 0;}
 }
 
 .control-panel > div {
+	display: inline-block;
+	text-align: left;
 	margin: 30px auto 0;
-	width: 500px;
 	padding: 20px 40px;
 	border-radius: 30px;
 	background-color: rgba(255,255,255,0.2);
 	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.6);
+}
+.control-panel .search-container {
+	width: 500px;
+	margin-right: 50px;
 }
 
 .radio-buttons {
@@ -95,8 +104,27 @@ h1 {margin: 0;}
 .gallery {
 	padding: 0 20px;
 }
-.gallery > div {
+.gallery .col {
 	margin-top: 20px;
+}
+.img {
+	position: relative;
+}
+.img-options {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 30px;
+	height: 30px;
+	text-indent: -9999em;
+	background-color: #ccc;
+	display: none;
+}
+.img:hover .img-options {
+	display: block;
+}
+.img-options:hover {
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 /************* Error ***************/
