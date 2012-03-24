@@ -119,6 +119,9 @@ p {
 	display: inline-block;
 	color: #fff;
 }
+.info li:first-child {
+	margin-right: 50px;
+}
 .info li a {
 	color: #fff;
 }
