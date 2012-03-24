@@ -98,6 +98,24 @@ p {
 }
 
 
+/*********** Info *******************/
+
+
+.info {
+  background-color: #808fa4;
+}
+
+.info p {
+	margin-bottom: 1em;
+}
+.info ul {
+	list-style: none;
+	text-align: center;
+}
+.info li {
+	display: inline-block;
+}
+
 /*********** Gallery ****************/
 
 .gallery-container {
