@@ -109,6 +109,7 @@ p {
 
 .info p {
 	margin-bottom: 1em;
+	line-height: 1.4;
 }
 .info ul {
 	list-style: none;
