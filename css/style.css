@@ -103,6 +103,7 @@ p {
 
 .info {
   background-color: #808fa4;
+  color: #CCE4F1;
 }
 
 .info p {
@@ -111,9 +112,14 @@ p {
 .info ul {
 	list-style: none;
 	text-align: center;
+	margin: 10px 0 0 0;
 }
 .info li {
 	display: inline-block;
+	color: #fff;
+}
+.info li a {
+	color: #fff;
 }
 
 /*********** Gallery ****************/
