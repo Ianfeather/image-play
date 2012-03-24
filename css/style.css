@@ -103,7 +103,8 @@ p {
 
 .info {
   background-color: #808fa4;
-  color: #CCE4F1;
+  color: #dff7ff;
+  padding: 20px 0;
 }
 
 .info p {
