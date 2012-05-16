@@ -12,6 +12,34 @@ ICF.searchOptions = {
 	count : ''
 };
 
+ICF.editPanel = '<div class="col edit-panel">' + 
+	'<p>This is only going to work in Chrome Canary for the moment.</p>' +
+	'<h4>Blur</h4>' + 
+	'<input type="range" value="0" max="10" name="blur" />' + 
+	'<label>0</label>' + 
+	'<h4>Sepia</h4>' + 
+	'<input type="range" min="0" name="sepia" max="1" step="0.1" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Grayscale</h4>' + 
+	'<input type="range" min="0" name="grayscale" max="1" step="0.1" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Brightness</h4>' + 
+	'<input type="range" min="0" name="brightness" max="1" step="0.1" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Contrast</h4>' + 
+	'<input type="range" min="1" name="contrast" max="5" step="0.1" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Hue Rotate</h4>' + 
+	'<input type="range" min="0" name="hue-rotate" max="360" step="30" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Invert</h4>' + 
+	'<input type="range" min="0" name="invert" max="1" step="0.1" value="0" />' + 
+	'<label>0</label>' + 
+	'<h4>Saturate</h4>' + 
+	'<input type="range" min="1" name="saturate" max="10" step="1" value="0" />' + 
+	'<label>0</label>' +
+'</div>';
+
 ICF.InputVal = {
 
 	store : function(str){
@@ -101,7 +129,8 @@ ICF.ImageRequest = (function(){
 							if (ICF.searchOptions.mode == 'Grid') {
 								if (i == 0 || i == 10 || i == 20 || i == 30) { html += '<div class="col">'; }
 								html += 
-									'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
+									//'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
+									'<a href="#" class="js-grid-photo">' +	
 										'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_z.jpg" class="i' + i + '" />' +
 									'</a>';
 								if (i == 9 || i == 19 || i == 29 || i == 39) { html += '</div>'; }
@@ -112,33 +141,7 @@ ICF.ImageRequest = (function(){
 											'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_b.jpg" class="i' + i + '" />' +
 										'</a>' + 
 									'</div>' + 
-									'<div class="col edit-panel">' + 
-										'<p>This is only going to work in Chrome Canary for the moment.</p>' +
-										'<h4>Blur</h4>' + 
-										'<input type="range" value="0" max="10" name="blur" />' + 
-										'<label>0</label>' + 
-										'<h4>Sepia</h4>' + 
-										'<input type="range" min="0" name="sepia" max="1" step="0.1" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Grayscale</h4>' + 
-										'<input type="range" min="0" name="grayscale" max="1" step="0.1" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Brightness</h4>' + 
-										'<input type="range" min="0" name="brightness" max="1" step="0.1" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Contrast</h4>' + 
-										'<input type="range" min="1" name="contrast" max="5" step="0.1" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Hue Rotate</h4>' + 
-										'<input type="range" min="0" name="hue-rotate" max="360" step="30" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Invert</h4>' + 
-										'<input type="range" min="0" name="invert" max="1" step="0.1" value="0" />' + 
-										'<label>0</label>' + 
-										'<h4>Saturate</h4>' + 
-										'<input type="range" min="1" name="saturate" max="10" step="1" value="0" />' + 
-										'<label>0</label>' +
-									'</div>';
+									ICF.editPanel;
 							}
 							
 						}
@@ -207,7 +210,21 @@ ICF.ImageRequest = (function(){
 	    		}
 	    	});
 	    
-    
+    		$('.js-gal-container').on('click', '.js-grid-photo', function(e){
+				console.log('in');
+				e.preventDefault();
+				var img, html = '';
+				img = $(this).children().attr('src');
+				console.log(img);
+				img = img.substr(0, (img.length-5)) + 'b.jpg';
+				console.log(img);
+				html += '<div class="col colx3 js-edit-container">' + 
+							'<a href="#" class="img js-img" data-desc="">' +	
+								'<img src="' + img + '" class="i" />' +
+							'</a>' + 
+						'</div>' + ICF.editPanel;
+				appendResult(html);
+			});
 			
 		}
 	
