@@ -139,6 +139,23 @@ p {
 .gallery .col {
 	margin-top: 20px;
 }
+.gallery .grid-photo {
+	position: relative;
+}
+.gallery .grid-photo:hover:after {
+	content: 'Edit';
+	display: block;
+	position: absolute;
+	background-color: rgba(255,255,255,0.6);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	padding-top: 40px;
+	color: #000;
+	text-transform: uppercase;
+}
 .img {
 	position: relative;
 }
@@ -167,7 +184,9 @@ h3 {
 	padding: 40px 0;
 	color: #5D5D5D;
 }
-
+.flickr-msg {
+	margin-top: 50px;
+}
 
 /************* Edit ***************/
 

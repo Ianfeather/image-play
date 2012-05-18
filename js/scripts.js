@@ -11,7 +11,7 @@ ICF.searchOptions = {
 	mode : '',
 	count : ''
 };
-
+ICF.flickrMsg = "<p class='flickr-msg'>If you see 'This photo is currently unavailable' it is because there isn't a large version of this image available on flickr. Sorry, have another search.</p>";
 ICF.editPanel = '<div class="col edit-panel">' + 
 	'<p>This is only going to work in Chrome Canary for the moment.</p>' +
 	'<h4>Blur</h4>' + 
@@ -130,7 +130,7 @@ ICF.ImageRequest = (function(){
 								if (i == 0 || i == 10 || i == 20 || i == 30) { html += '<div class="col">'; }
 								html += 
 									//'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
-									'<a href="#" class="js-grid-photo">' +	
+									'<a href="#" class="js-grid-photo grid-photo">' +	
 										'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_z.jpg" class="i' + i + '" />' +
 									'</a>';
 								if (i == 9 || i == 19 || i == 29 || i == 39) { html += '</div>'; }
@@ -140,6 +140,7 @@ ICF.ImageRequest = (function(){
 										'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
 											'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_b.jpg" class="i' + i + '" />' +
 										'</a>' + 
+										ICF.flickrMsg +
 									'</div>' + 
 									ICF.editPanel;
 							}
