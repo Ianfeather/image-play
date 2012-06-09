@@ -4,14 +4,13 @@ String.prototype.linkReplace = function() {
 	});
 };
 
-var ICF = {}
+var ICF = {};
 
 ICF.searchOptions = {
 	type : '',
 	mode : '',
 	count : ''
 };
-ICF.flickrMsg = "<p class='flickr-msg'>If you see 'This photo is currently unavailable' it is because there isn't a large version of this image available on flickr. Sorry, have another search.</p>";
 ICF.editPanel = '<div class="col edit-panel">' + 
 	'<p>This is only going to work in Chrome Canary for the moment.</p>' +
 	'<h4>Blur</h4>' + 
@@ -40,6 +39,10 @@ ICF.editPanel = '<div class="col edit-panel">' +
 	'<label>0</label>' +
 '</div>';
 
+
+// =============================
+// = Save the last search text =
+// =============================
 ICF.InputVal = {
 
 	store : function(str){
@@ -52,6 +55,10 @@ ICF.InputVal = {
 
 };
 
+
+// =============================
+// = Save the last search mode =
+// =============================
 ICF.RadioVal = {
 
 	load : function(){
@@ -73,7 +80,7 @@ ICF.RadioVal = {
 			ICF.searchOptions.mode = $('input[name="mode"]:checked').val();
 		}
 		
-		(ICF.searchOptions.mode == 'Grid') ? ICF.searchOptions.count = 40 : ICF.searchOptions.count = 1
+		ICF.searchOptions.count = (ICF.searchOptions.mode == 'Grid') ? 40 : 1;
 		
 		$('input[name="searchType"]').on('change', function(){
 			var val = $('input[name="searchType"]:checked').val();
@@ -93,12 +100,51 @@ ICF.RadioVal = {
 		} else {
 			ICF.searchOptions.mode = val;
 			localStorage.setItem('searchMode', val);
-			(val == 'Grid') ? ICF.searchOptions.count = 40 : ICF.searchOptions.count = 1
+			ICF.searchOptions.count = (val == 'Grid') ? 40 : 1;
 		}
 	
 	}
 
 };
+
+
+
+ICF.EditMode = (function(){
+	
+	var getOriginalSize = function (sizes) {
+    var lrg = _(sizes).find(function (size) {
+      return size.label === "Large";
+    });
+		if (lrg !== undefined) {
+			return lrg;
+		} else {
+			return _(sizes).find(function (size) {
+				return size.label === "Medium";
+			});
+		}
+  };
+	
+	$(document).on('gotSizes', function(e, photo){
+		var pSizes = photo.sizes.sizes.size,
+				p      = photo.photo;
+
+		var x = getOriginalSize(pSizes);
+
+		html = 
+			'<div class="col colx3 js-edit-container">' + 
+				'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img" data-desc="">' +	
+					'<img src="' + x.source + '" />' +
+				'</a>' + 
+			'</div>' + 
+			ICF.editPanel;
+		
+		ICF.ImageRequest.appendResult(html);
+		
+	});
+	
+
+})();
+
 
 ICF.ImageRequest = (function(){
 
@@ -107,16 +153,12 @@ ICF.ImageRequest = (function(){
 	* For image size options: http://www.flickr.com/services/api/misc.urls.html
 	*/
 
-	var apiKey = '8b9c8dd3138cbf709f06a0daacb7ef69',
-		secret = 'a3571faab9da72e1',
-		userId = '72039957@N06',
-		accessToken = '9143472.e3623bf.bff78de44a9548ac83513b6c6316c71b';
+	var apiKey = '8b9c8dd3138cbf709f06a0daacb7ef69';
 		
 	var loadFlickr = function (searchTerm){
 		searchTerm = searchTerm.split(' ').join('+');
 		$.getJSON('http://api.flickr.com/services/rest/?&method=flickr.photos.search&api_key=' + apiKey + '&format=json&tags=' + searchTerm + '&sort=relevance&extras=description&per_page=' + ICF.searchOptions.count + '&jsoncallback=?',
 			function(result){
-
 				if (result.stat == "ok"){
 					var myPhotos = result.photos.photo;
 					var html = '';
@@ -126,31 +168,30 @@ ICF.ImageRequest = (function(){
 							
 							var desc = p.description._content;
 							desc = desc.linkReplace();
-							if (ICF.searchOptions.mode == 'Grid') {
-								if (i == 0 || i == 10 || i == 20 || i == 30) { html += '<div class="col">'; }
+							if (ICF.searchOptions.mode === 'Grid') {
+								if (i === 0 || i === 10 || i === 20 || i === 30) { html += '<div class="col">'; }
 								html += 
 									//'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
 									'<a href="#" class="js-grid-photo grid-photo">' +	
 										'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_z.jpg" class="i' + i + '" />' +
 									'</a>';
-								if (i == 9 || i == 19 || i == 29 || i == 39) { html += '</div>'; }
+								if (i === 9 || i === 19 || i === 29 || i === 39) { html += '</div>'; }
+								ICF.ImageRequest.appendResult(html);
 							} else {
-								html += 
-									'<div class="col colx3 js-edit-container">' + 
-										'<a href="http://www.flickr.com/photos/' + p.owner + '/' + p.id + '" class="img js-img i' + i + '" data-desc="">' +	
-											'<img src="http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '_b.jpg" class="i' + i + '" />' +
-										'</a>' + 
-										ICF.flickrMsg +
-									'</div>' + 
-									ICF.editPanel;
+								$.getJSON('http://api.flickr.com/services/rest/?&method=flickr.photos.getSizes&api_key=' + apiKey + '&photo_id=' + p.id + '&format=json&jsoncallback=?', function (data) {
+									var photoInfo = {};
+									photoInfo.sizes = data;
+									photoInfo.photo = p;
+									$(document).trigger('gotSizes', photoInfo);
+								});
+								
 							}
 							
 						}
 					} else {
-						html += '<h3>Better luck next time</h3>';
+						html += '<h3>No results, better luck next time</h3>';
+						ICF.ImageRequest.appendResult(html);
 					}
-					appendResult(html);
-					$('.js-load').removeClass('active');
 
 				} else {
 					//Error
@@ -160,76 +201,53 @@ ICF.ImageRequest = (function(){
 
 	};
 	
-	var loadInstagram = function(searchTerm){
-		searchTerm = searchTerm.split(' ').join('+');
-		/*$.getJSON('https://api.instagram.com/v1/tags/' + searchTerm + '/media/recent?access_token=' + accessToken + '&jsoncallback=?',
-			function(result){
-				console.log(result);
-				
-			}
-		);*/
-		$.ajax({
-		  url: 'https://api.instagram.com/v1/tags/' + searchTerm + '/media/recent?access_token=' + accessToken + '&jsoncallback=?',
-		  dataType: "jsonp",
-		  success: function(result){
-				console.log(result);
-		  }
-		});
-
-	};
-	
-	var appendResult = function (html) {
-	
-		var myContainer = $('.js-gal-container');
-		myContainer.html(html);	
-	
-	};
-	
-	
 	return {
 	
+		appendResult : function (html) {
+			var myContainer = $('.js-gal-container');
+			myContainer.html(html);	
+			$('.js-load').removeClass('active');	
+		},
+		
 		init : function() {
 			
-	        $('.js-load').on('click', function(e) {
-		        e.preventDefault();
-	        	var val = $(this).prev().val();
-	        	if (val != '') {
-			        $(this).addClass('active');
-		            (ICF.searchOptions.type == 'Flickr') ? loadFlickr(val) : loadInstagram(val);
-		            ICF.InputVal.store(val);
-		        }
-	        });
+			$('.js-load').on('click', function(e) {
+				e.preventDefault();
+				var val = $(this).prev().val();
+				if (val !== '') {
+					$(this).addClass('active');
+					if (ICF.searchOptions.type === 'Flickr') { loadFlickr(val);} else { loadInstagram(val);}
+					ICF.InputVal.store(val);
+				}
+			});
 			
-	    	$(document).on('keyup', function(e){
-	    		e.preventDefault();
+			$(document).on('keyup', function(e){
+				e.preventDefault();
 				var val = $('#js-search').val();
-	    		var c = (e.keyCode ? e.keyCode : e.which);
-	    		if (c == '13' && val != '') {
-	    			$('.js-load').addClass('active');
-	    			ICF.InputVal.store(val);
-	    			(ICF.searchOptions.type == 'Flickr') ? loadFlickr(val) : loadInstagram(val);
-	    		}
-	    	});
-	    
-    		$('.js-gal-container').on('click', '.js-grid-photo', function(e){
-				console.log('in');
+				var c = (e.keyCode ? e.keyCode : e.which);
+				if (c === '13' && val !== '') {
+					$('.js-load').addClass('active');
+					ICF.InputVal.store(val);
+					if (ICF.searchOptions.type === 'Flickr') { loadFlickr(val);} else {loadInstagram(val);}
+				}
+			});
+
+			$('.js-gal-container').on('click', '.js-grid-photo', function(e){
 				e.preventDefault();
 				var img, html = '';
 				img = $(this).children().attr('src');
-				console.log(img);
 				img = img.substr(0, (img.length-5)) + 'b.jpg';
-				console.log(img);
 				html += '<div class="col colx3 js-edit-container">' + 
 							'<a href="#" class="img js-img" data-desc="">' +	
 								'<img src="' + img + '" class="i" />' +
 							'</a>' + 
 						'</div>' + ICF.editPanel;
-				appendResult(html);
+				ICF.ImageRequest.appendResult(html);
 			});
 			
 		}
 	
-	}
+	};
 
 })();
 
@@ -254,7 +272,7 @@ ICF.ImageEdit = (function(){
 			str += filter[x] + ' '; 
 		}
 		$('.js-gal-container').find('img').attr('style', '-webkit-filter:' + str );
-	}
+	};
 
 	return {
 		init : function(){
@@ -272,7 +290,7 @@ ICF.ImageEdit = (function(){
 			
 	
 		}
-	}
+	};
 	
 })();
 
