@@ -12,7 +12,7 @@ ICF.searchOptions = {
 	count : ''
 };
 ICF.editPanel = '<div class="col edit-panel">' + 
-	'<p>This is only going to work in Chrome Canary for the moment.</p>' +
+	'<p>This is only going to work in Chrome for the moment.</p>' +
 	'<h4>Blur</h4>' + 
 	'<input type="range" value="0" max="10" name="blur" />' + 
 	'<label>0</label>' + 
@@ -73,8 +73,8 @@ ICF.RadioVal = {
 		
 		if (localStorage.getItem('searchMode')) {
 			ICF.searchOptions.mode = localStorage.getItem('searchMode');
-			if (ICF.searchOptions.mode == 'Edit') {
-				$('input[value="Edit"]').attr('checked','checked');
+			if (ICF.searchOptions.mode == 'Grid') {
+				$('input[value="Grid"]').attr('checked','checked');
 			}
 		} else {
 			ICF.searchOptions.mode = $('input[name="mode"]:checked').val();
@@ -89,6 +89,7 @@ ICF.RadioVal = {
 		$('input[name="mode"]').on('change', function(){
 			var val = $('input[name="mode"]:checked').val();
 			ICF.RadioVal.update('mode', val);
+			
 		});
 	
 	},
@@ -225,7 +226,7 @@ ICF.ImageRequest = (function(){
 				e.preventDefault();
 				var val = $('#js-search').val();
 				var c = (e.keyCode ? e.keyCode : e.which);
-				if (c === '13' && val !== '') {
+				if (c === 13 && val !== '') {
 					$('.js-load').addClass('active');
 					ICF.InputVal.store(val);
 					if (ICF.searchOptions.type === 'Flickr') { loadFlickr(val);} else {loadInstagram(val);}
